@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
+    <title>Item Management</title>
+</head>
+
+<body>
+
+    <div id="main-container">
+        <button onclick="showAddOptions()">Add New Items</button>
+        <button onclick="viewAllItems()">View All Items</button>
+
+        <div id="add-options" style="display: none;">
+            <button onclick="addNewDoctorItem()">Add New Doctor Item</button>
+        </div>
+
+        <div id="view-all-items" style="display: none;">
+            <button id="view-all-items-button">See All Reports</button>
+            <div id="list_of_items_div">
+
+            </div>
+        </div>
+
+        <div id="add-new-items" style="display: none;">
+            <form enctype="multipart/form-data">
+                <label for="doctor-drop-down">Doctor Name:</label>
+                <select id="doctor-drop-down">
+                    <option value="Dr.Shardul Chavhan">Dr.Shardul Chavhan</option>
+                    <option value="Dr.Budhlani">Dr.Budhlani</option>
+                    <option value="Dr.Moon">Dr.Moon</option>
+                    <option value="Dr.Kale">Dr.Kale</option>
+                    <option value="Dr.Men">Dr.Men</option>
+                </select>
+                <label for="diagnosis">Diagnosis:</label>
+                <input type="text" id="diagnosis">
+                <label for="prescription">Prescription:</label>
+                <input type="text" id="prescription">
+                <label for="scan-files">Upload Scans:</label>
+                <input type="file" id="scan-files">
+                <button id="add-new-items-button">Enter</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+        function showAddOptions() {
+            document.getElementById('add-options').style.display = 'block';
+            document.getElementById('view-all-items').style.display = 'none';
+        }
+
+        function viewAllItems() {
+            document.getElementById('add-options').style.display = 'none';
+            document.getElementById('view-all-items').style.display = 'block';
+            document.getElementById('view-all-items-button').addEventListener('click', async (e) => {
+                document.getElementById('add-new-items').style.display = 'none';
+                e.preventDefault();
+                const config = {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+                try {
+                    const response = await axios.get("http://localhost:3000/get-reports", config);
+                    console.log("All reports");
+                    console.log(response.data.response[0]);
+                    const list_of_items_div = document.getElementById('list_of_items_div');
+                    list_of_items_div.innerHTML = '';
+
+                    response.data.response.forEach(element => {
+                        const liElement = document.createElement('li');
+                        liElement.innerHTML = `
+                            <span>${element.reportId}</span> |
+                            <img src="/uploads/${element.scan_link}" alt="${element.doctorName} Image" style="width: 50px; height: 50px;"> |
+                            <span><span style="color:red; font-weight: bold; font-family: 'Courier New', Courier, monospace;">Doctor:</span>${element.doctorName}</span> |
+                            <span><span style="color:red; font-weight: bold; font-family: 'Courier New', Courier, monospace;">Diagnosis:</span>${element.diagnosis}</span> |
+                            <span><span style="color:red; font-weight: bold; font-family: 'Courier New', Courier, monospace;">Prescription:</span>${element.prescription}</span>
+                            
+                        `
+
+                        list_of_items_div.appendChild(liElement);
+                    });
+
+                } catch (e) {
+                    console.log(e);
+                }
+
+            });
+
+        }
+
+        async function addNewDoctorItem() {
+
+            document.getElementById('add-new-items').style.display = 'block';
+        }
+
+
+        document.getElementById('add-new-items-button').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const doctorName = document.getElementById('doctor-drop-down').value;
+            const diagnosis = document.getElementById('diagnosis').value;
+            const prescription = document.getElementById('prescription').value;
+            const scanFilesInput = document.getElementById('scan-files');
+            const scanFiles = scanFilesInput.files[0];
+            const token = localStorage.getItem('token');
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+            try {
+                const response = await axios.post("http://localhost:3000/add-new-doctor",
+                    { doctorName, diagnosis, prescription, scanFiles }, config);
+
+                if (response.data.success === true) {
+                    alert(`You're ID is: ${response.data.id}`);
+                }
+            } catch (e) {
+                console.log(e);
+            }
+
+        });
+
+
+
+
+    </script>
+</body>
+
+</html>
