@@ -6,8 +6,12 @@ app = Flask(__name__)
 def chat():
     data = request.json
     user_message = data['message']
-
-    bot_response = f"Bot: You said '{user_message}'"
+    if user_message == 'Hello' or 'Hi':
+        bot_response = f"Bot: Hey how may i help you?"
+    elif user_message == 'what is your name?':
+        bot_response = f"Bot: my name is rebecca"
+    else:
+        bot_response = f"Bot: Can't understand what you're saying'"
 
     return jsonify({'response': bot_response})
 

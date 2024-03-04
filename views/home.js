@@ -86,6 +86,7 @@ document.getElementById('chatbot-send-button').addEventListener('click',async (e
             chat_input
         });
 
+        //console.log(response);
         const textResponse = response.data.botResponse;
         console.log(textResponse);
     }catch(e){
