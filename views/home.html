@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/css/chatbot.css"> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
     <title>Item Management</title>
 </head>
@@ -45,15 +46,24 @@
                 <button id="add-new-items-button">Enter</button>
             </form>
         </div>
-    </div>
-
-    <script src="./home.js">
 
         
+        <div id="chatbot-window">
+            <div id="chatbot-header">
+                <span>Chatbot</span>
+                <!-- <button onclick="toggleChatbot()">Toggle</button> -->
+            </div>
+            <div id="chatbot-body">
+                
+            </div>
+            <div id="chatbot-input">
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button id="chatbot-send-button">Send</button>
+            </div>
+        </div>
+    </div>
 
-
-
-    </script>
+    <script src="./home.js"></script>
 </body>
 
 </html>

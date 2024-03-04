@@ -76,3 +76,19 @@ document.getElementById('add-new-items-button').addEventListener('click', async 
     }
 
 });
+
+
+document.getElementById('chatbot-send-button').addEventListener('click',async (e)=>{
+    const chat_input = document.getElementById('chat-input').value;
+
+    try{
+        const response = await axios.post('http://localhost:3000/chat-bot',{
+            chat_input
+        });
+
+        const textResponse = response.data.botResponse;
+        console.log(textResponse);
+    }catch(e){
+        console.log(e);
+    }
+});

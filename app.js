@@ -8,6 +8,8 @@ const reportGenerateModel = require('./models/reportGenerateModel');
 const userModel = require('./models/userModel');
 const database = require('./configuration/database');
 const path = require('path');
+const axios = require('axios');
+
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'views')));
@@ -21,6 +23,20 @@ app.use(homePageRoute);
 
 userModel.hasMany(reportGenerateModel, { foreignKey: 'userId' });
 reportGenerateModel.belongsTo(userModel, { foreignKey: 'userId' });
+
+//app.post('/chat', async (req, res) => {
+    //const userMessage = req.body.message;
+
+    // try {
+    //     const response = await axios.post('http://localhost:5000/api/chat', { message: userMessage });
+    //     const botResponse = response.data.response;
+
+    //     res.json({ botResponse });
+    // } catch (error) {
+    //     console.error('Error calling Python chatbot:', error.message);
+    //     res.status(500).json({ error: 'Internal Server Error' });
+    // }
+//});
 
 
 

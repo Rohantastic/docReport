@@ -1,7 +1,7 @@
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const newDoctorModel = require('../models/reportGenerateModel');
-
+const axios = require('axios');
 const getHome = (req,res)=>{
     res.sendFile(path.join(__dirname, "../", "views/", "home.html"));
 }
@@ -34,4 +34,17 @@ const fetchAllReports = async(req,res)=>{
 }
 
 
-module.exports = {getHome,addNewdoctor,fetchAllReports};
+const chatbotController = async (req,res)=>{
+    const message = req.body.chat_input;
+
+    try {
+        const response = await axios.post('http://localhost:5000/api/chat', { message: message });
+        const botResponse = response.data.response;
+
+        res.json({ botResponse });
+    } catch (error) {
+        console.error('Error calling Python chatbot:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+module.exports = {getHome,addNewdoctor,fetchAllReports,chatbotController};
