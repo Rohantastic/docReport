@@ -8,19 +8,22 @@ const redirectToSignupPage = (req,res)=>{
 }
 
 const userDataFromSignupPage = async (req,res)=>{
-    const name = req.body.name;
+    let name = req.body.name;
     const password = req.body.password;
     const aadharNo = req.body.aadhar;
     const email = req.body.email;
     const phone = req.body.phone;
-
+    const isDoctor = req.body.checkbox;
+    if(isDoctor){
+        name = "dr." + name;
+    }
     try{
         
         const user = await UserModel.findOne({where:{phone:phone}});
 
         if(!user){
             bcrypt.hash(password,10,async (err,hash)=>{
-                const result = await UserModel.create({name,password:hash,aadharNo,email,phone});
+                const result = await UserModel.create({name,password:hash,aadharNo,email,phone,isDoctor});
             })
             console.log("User has been created !!");
 

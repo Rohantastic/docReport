@@ -23,6 +23,7 @@ userModel.hasMany(reportGenerateModel, { foreignKey: 'userId' });
 reportGenerateModel.belongsTo(userModel, { foreignKey: 'userId' });
 
 
+
 database.sync({ force: false })
     .then(() => {
         console.log('Database synced successfully');

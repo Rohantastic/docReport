@@ -29,6 +29,10 @@ const User = database.define('user', {
         type: DataTypes.BIGINT,
         allowNull: false,
         unique: true
+    },
+    isDoctor:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
     }
 });
 

@@ -22,6 +22,7 @@ label {
     color: #333;
 }
 
+
 input {
     width: 100%;
     padding: 10px;
@@ -52,4 +53,14 @@ button:hover {
 
 #redirectToLogin:hover {
     background-color: #7f8c8d;
+}
+
+.checkbox-container {
+    margin-bottom: 0px;
+    display: inline-flex;
+    /* Adjust the margin as needed */
+}
+
+.checkbox-container label {
+    margin-right: 10px; /* Adjust the margin as needed */
 }
