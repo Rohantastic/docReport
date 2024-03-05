@@ -88,6 +88,12 @@ document.getElementById('chatbot-send-button').addEventListener('click',async (e
 
         //console.log(response);
         const textResponse = response.data.botResponse;
+
+        const chatboxElement = document.getElementById('chat-box');
+        const chatbox_li = document.createElement('li');
+        chatbox_li.innerHTML = textResponse;
+        chatboxElement.appendChild(chatbox_li);
+
         console.log(textResponse);
     }catch(e){
         console.log(e);
